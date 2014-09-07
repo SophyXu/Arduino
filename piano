@@ -1,0 +1,230 @@
+#include <pitches.h>
+int flag2 = 0;      //用于判断按钮是否按下。 
+int flag3 = 0;
+int flag4 = 0;
+int flag5 = 0;
+int flag6 = 0;
+int flag7 = 0;
+int buttonState2 = 0;
+int buttonState3 = 0;
+int buttonState4 = 0;
+int buttonState5 = 0;
+int buttonState6 = 0;
+int buttonState7 = 0;
+int count = 1;    //用于判断是什么音调。
+int i = 0;      //获取光敏电阻的值。
+int j = 0;
+int k = 0;
+int l = 0;
+int m = 0;
+int n = 0;
+int melody[] = {NOTE_C4, NOTE_G3,NOTE_G3, NOTE_A3, NOTE_G3,0, NOTE_B3, NOTE_C4};     
+int noteDurations[] = {4,8,8,4,4,4,4,4 };
+int tian[]={NOTE_A4,NOTE_B4,NOTE_C5,NOTE_B4,NOTE_C5,NOTE_E5,NOTE_B4,0,NOTE_E4,NOTE_A4,NOTE_G4,NOTE_A4,NOTE_C5,NOTE_G4};    //宫崎骏《天空之城》副歌部分的音调。
+int noteD[]={4,4,1.33,4,2,2,1,2,2,1.33,4,2,2,1};    //宫崎骏《天空之城》每个音符的持续时间。
+int yisheng[]={NOTE_C5,NOTE_G4,NOTE_C5,NOTE_D5,NOTE_D5,NOTE_D5,NOTE_D5,NOTE_G5,NOTE_D5,NOTE_C5,NOTE_C5,NOTE_E5,NOTE_E5,NOTE_A4,NOTE_E4,NOTE_A4,NOTE_C5,NOTE_B4,NOTE_B4,NOTE_A4,NOTE_B4,NOTE_C5,NOTE_C5,NOTE_C5,NOTE_D5,NOTE_D5,NOTE_E5,NOTE_E5,NOTE_E5,NOTE_E5,NOTE_D5,NOTE_D5,NOTE_D5,NOTE_G5,NOTE_A5,NOTE_A5,NOTE_A5,NOTE_G5,NOTE_E5,NOTE_F5,NOTE_F5,NOTE_F5,NOTE_A5,NOTE_A5,NOTE_G5,NOTE_G5,NOTE_G5,NOTE_C5,NOTE_C5,NOTE_C5,NOTE_D5,NOTE_C5};
+    //羽泉组合《一生有你》副歌部分的音调。
+int note[]={4,4,4,4,4,4,4,4,4,4,4,4,1,4,4,4,4,4,4,4,4,4,4,4,4,1,4,4,4,4,4,4,4,4,4,4,4,4,1,4,4,4,4,4,4,4,4,4,4,4,4,2};             //羽泉组合《一生有你》每个音符的持续时间。
+int level = 700;                    //用于判断手指是否按到键盘。
+int haikuo[]={NOTE_A5,NOTE_B5,NOTE_C6,NOTE_C6,NOTE_C6,NOTE_C6,NOTE_C6,NOTE_B5,NOTE_A5,NOTE_G5,NOTE_G5,NOTE_E5,NOTE_D5,NOTE_C5,0,NOTE_A6,NOTE_B6,NOTE_C6,NOTE_C6,NOTE_D6,NOTE_D6,NOTE_C6,NOTE_D6,NOTE_E6,0,NOTE_C6,NOTE_C6,NOTE_C6,NOTE_C6,NOTE_D6,NOTE_G5,NOTE_G5,NOTE_E6,NOTE_D6,NOTE_C6,0,NOTE_C6,NOTE_C6,NOTE_C6,NOTE_C6,NOTE_D6,NOTE_D6,NOTE_D6,NOTE_C6,NOTE_B5,NOTE_C6};
+//beyond组合《海阔天空》副歌部分的音调。
+Int noteDu[]={8,8,4,4,4,4,4,4,4,4,2,8,8,2,2,8,8,4,4,4,4,8,8,2,2,8,8,4,4,2,2,8,8,2,2,2,2,8,8,4,4,4,8,8,4,4,2};
+//beyond组合《海阔天空》每个音符的持续时间。
+void setup()
+{
+Serial.begin(9600);
+pinMode(2,INPUT);        //设定六个按钮为输入。
+pinMode(3,INPUT);
+pinMode(4,INPUT);
+pinMode(5,INPUT);
+pinMode(6,INPUT);
+pinMode(7,INPUT);
+}
+void loop()
+{
+        buttonState2 = digitalRead(2);
+        buttonState3 = digitalRead(3);
+        buttonState4 = digitalRead(4);
+        buttonState5 = digitalRead(5);
+        buttonState6 = digitalRead(6);
+        buttonState7 = digitalRead(7);
+        i = analogRead(A0);
+          Serial.println(k);
+        j = analogRead(A1);
+        k = analogRead(A2);
+        l = analogRead(A3);
+        m = analogRead(A4);
+        n = analogRead(A5);
+         if (buttonState2 == HIGH )     //以下用于判断蓝色按钮是否按下，设定音高。
+               flag2 = 1;
+         if(buttonState2 == LOW)
+               {
+                    if (flag2 == 1)
+                {
+                    count= 10;
+                    flag2 = 0;
+                }
+             }
+         if (buttonState3 == HIGH )
+               flag3 = 1;
+         if(buttonState3 == LOW)
+               {
+                    if (flag3 == 1)
+                {
+                    count=0;
+                    flag3 = 0;
+                }
+              }
+                   if (buttonState7 == HIGH )
+               flag7 = 1;
+         if(buttonState7 == LOW)
+               {
+                    if (flag7 == 1)
+                {
+                    count= 1;
+                    flag7 = 0;
+                }
+             }
+                       //以下用于判断键盘是否按下，如果按下则发出相应声音。
+    if (i<level)
+    {
+       if(count ==0)
+       {
+       tone(8,NOTE_C4,1000/4);
+       }
+       if(count == 1)
+       {
+        tone(8,NOTE_C5,1000/4);
+       }
+       if(count > 2)
+       {
+        tone(8,NOTE_C6,1000/4);
+        }
+    }
+    if (j<level)
+    {
+       if(count ==0)
+       {
+       tone(8,NOTE_D4,1000/4);
+       }
+       if(count == 1)
+       {
+        tone(8,NOTE_D5,1000/4);
+       }
+       if(count > 2)
+       {
+        tone(8,NOTE_D6,1000/4);
+        }
+    }
+    if (k<level)
+    {
+       if(count ==0)
+       {
+       tone(8,NOTE_E4,1000/4);
+       }
+       if(count == 1)
+       {
+        tone(8,NOTE_E5,1000/4);
+       }
+       if(count > 2)
+       {
+        tone(8,NOTE_E6,1000/4);
+        }
+    }
+    if (l<level)
+    {
+       if(count ==0)
+       {
+       tone(8,NOTE_F4,1000/4);
+       }
+       if(count == 1)
+       {
+        tone(8,NOTE_F5,1000/4);
+       }
+       if(count > 2)
+       {
+        tone(8,NOTE_F6,1000/4);
+        }
+    }
+    if (m<level)
+    {
+       if(count ==0)
+       {
+       tone(8,NOTE_G4,1000/4);
+       }
+       if(count == 1)
+       {
+        tone(8,NOTE_G5,1000/4);
+       }
+       if(count >2)
+       {
+        tone(8,NOTE_G6,1000/4);
+        }
+    }
+    if (n<level)
+    {
+       if(count ==0)
+       {
+       tone(8,NOTE_A4,1000/4);
+       }
+       if(count == 1)
+       {
+        tone(8,NOTE_A5,1000/4);
+       }
+       if(count > 2)
+       {
+        tone(8,NOTE_A6,1000/4);
+        }
+    }
+     if (buttonState6 == HIGH )    //用于判断黄色按钮是否按下，如果按下则播放相应曲目。
+               flag6 = 1;
+         if(buttonState6 == LOW)
+               {
+                    if (flag6 == 1)
+                {
+                   for (int thisNote = 0; thisNote<46 ; thisNote++)
+                   {
+                      int noteDuration = 1000/noteDu[thisNote];
+                      tone(8, haikuo[thisNote],noteDuration);
+                      int pauseBetweenNotes = noteDuration * 1.30;
+                      delay(pauseBetweenNotes);
+                   }
+                         noTone(8);
+                          flag6 = 0;
+                 }
+              }
+   if (buttonState5 == HIGH )
+               flag5 = 1;
+         if(buttonState5 == LOW)
+               {
+                    if (flag5 == 1)
+                {
+                   for (int thisNote = 0; thisNote<52 ; thisNote++)
+                   {
+                      int noteDuration = 1000/note[thisNote];
+                      tone(8, yisheng[thisNote],noteDuration);
+                      int pauseBetweenNotes = noteDuration * 1.30;
+                      delay(pauseBetweenNotes);
+                   }
+                         noTone(8);
+                          flag5 = 0;
+                 }
+              }
+        if (buttonState4 == HIGH )
+               flag4 = 1;
+         if(buttonState4 == LOW)
+               {
+                    if (flag4 == 1)
+                {
+                   for (int thisNote = 0; thisNote<14 ; thisNote++)
+                   {
+                      int noteDuration = 1000/noteD[thisNote];
+                      tone(8, tian[thisNote],noteDuration);
+                      int pauseBetweenNotes = noteDuration * 1.30;
+                      delay(pauseBetweenNotes);
+                   }
+                         noTone(8);
+                          flag4 = 0;
+                 }
+              }
+}
